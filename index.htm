@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Vợ Yêu ❤️</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0; min-height:100vh; overflow-x:hidden;
+ font-family:'Segoe UI',sans-serif;
+ background:linear-gradient(135deg,#ff9aaf,#ffc3d2,#ffe1ec);
+ color:#8b234d;text-align:center;
+}
+#start{
+ min-height:100vh;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;padding:20px;
+}
+h1{font-size:clamp(27px,6vw,42px);color:#fff;
+ text-shadow:2px 3px 8px #d94c83}
+.subtitle{color:white;font-size:18px}
+.cake{position:relative;margin:65px auto 35px;width:220px;height:140px}
+.layer{
+ position:absolute;bottom:0;width:220px;height:90px;
+ background:linear-gradient(#ff78a5,#ed3979);
+ border-radius:12px 12px 20px 20px;
+ box-shadow:0 9px 0 #c92d65;
+}
+.layer:before{
+ content:"";position:absolute;top:0;width:100%;height:25px;
+ background:#fff0f5;border-radius:50%;
+}
+.icing{
+ position:absolute;top:18px;left:0;width:100%;height:30px;
+ border-radius:50%;background:#fff1f6;
+}
+.candle{
+ position:absolute;bottom:85px;width:7px;height:48px;
+ background:repeating-linear-gradient(45deg,#fff 0 5px,#ff5b98 5px 10px);
+ border-radius:3px;z-index:2;
+}
+.flame{
+ position:absolute;top:-19px;left:-3px;width:13px;height:19px;
+ background:radial-gradient(#fff5a0,#ff9c20,#ff5c27);
+ border-radius:50% 50% 45% 45%;
+ box-shadow:0 0 15px #ffb52e;
+ animation:flicker .35s infinite alternate;
+}
+@keyframes flicker{to{transform:scale(.8,1.15) rotate(5deg)}}
+.candle.off .flame{display:none}
+button{
+ border:0;padding:15px 28px;border-radius:40px;
+ background:#e93679;color:white;font-size:18px;
+ font-weight:bold;cursor:pointer;
+ box-shadow:0 5px 15px #b52c60;
+}
+button:active{transform:scale(.95)}
+#letter{
+ display:none;max-width:720px;margin:30px auto;
+ padding:30px 23px;background:#fff9fc;
+ border-radius:22px;box-shadow:0 10px 35px #b93e7060;
+ text-align:left;animation:enter 1.5s ease;
+}
+@keyframes enter{
+ from{opacity:0;transform:translateX(100vw) rotate(5deg)}
+ to{opacity:1;transform:translateX(0) rotate(0)}
+}
+#letter h2{text-align:center;color:#e52e78;font-size:26px}
+.paragraph{
+ opacity:0;transform:translateY(18px);
+ transition:all 1s ease;
+ font-size:16px;line-height:1.9;margin:20px 0;
+}
+.paragraph.show{opacity:1;transform:translateY(0)}
+.heart{
+ position:fixed;bottom:-30px;pointer-events:none;
+ animation:fly 5s linear forwards;
+}
+@keyframes fly{
+ to{transform:translateY(-110vh) rotate(360deg);opacity:0}
+}
+#fireworks{position:fixed;inset:0;pointer-events:none;z-index:5}
+.hidden{display:none!important}
+.signature{text-align:center;color:#e52e78;font-size:22px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div id="start">
+ <h1>🎂 HAPPY BIRTHDAY 🎂</h1>
+ <div class="subtitle">Chúc mừng sinh nhật nàng công chúa 22 tuổi ❤️</div>
+
+ <div class="cake" id="cake">
+  <div class="layer"><div class="icing"></div></div>
+ </div>
+
+ <h2 style="color:white">22 tuổi – 4 năm yêu thương ❤️</h2>
+ <p style="color:white">Một điều ước thật đẹp đang chờ nàng...</p>
+ <button onclick="blow()">💨 Thổi nến đi vợ yêu!</button>
+</div>
+
+<canvas id="fireworks"></canvas>
+
+<div id="letter">
+ <h2>💌 Gửi Vợ Yêu Của Chàng 💌</h2>
+ <div id="content"></div>
+ <div class="signature">
+  ❤️ Mãi mãi bên nhau nhé Vợ Yêu! ❤️
+  <br>Yêu vợ nhiều nhắm 😘🥰
+ </div>
+</div>
+
+<script>
+const cake=document.getElementById('cake');
+
+// Tạo 22 ngọn nến
+for(let i=0;i<22;i++){
+ const c=document.createElement('div');
+ c.className='candle';
+ c.style.left=(10+(i%11)*19)+'px';
+ c.style.bottom=(85+Math.floor(i/11)*22)+'px';
+ const f=document.createElement('div');
+ f.className='flame';
+ c.appendChild(f);
+ cake.appendChild(c);
+}
+
+const messages=[
+`Chúc mừng sinh nhật Vợ Yêu Của Chàng ❤️🎂🥰😘😍🎂🎂🎂.`,
+`Thế là đã 4 cái sinh nhật cùng nhau trải đều qua 4 năm rồi nàng yêu nhỉ ❤️❤️❤️.`,
+`Hôm nay, là một ngày siêu đặc biệt của một người đặc biệt đã bên chàng 4 năm 🤩🥰.`,
+`Cách đây 22 năm về trước một cô nàng xinh iu thiên thần ra đời và hôm nay đã 22 tủi thanh xuân xinh yêu của mình ❤️❤️❤️ 🥰🥰🥰.`,
+`Chàng chúc nàng tuổi mới luôn xinh đẹp, vui vẻ, mạnh khỏe và tràn đầy hạnh phúc trong suốt chặng đường tiếp theoooo 🥰🥰🥰😙😚😉😋.`,
+`Mong rằng mọi điều luôn tốt đẹp sẽ luôn tới với nàng yêu của chàng, những dự định và ước mơ của nàng sẽ đều sớm thành hiện thực hihi 🥰🥰🥰❤️❤️❤️.`,
+`Cảm ơn nàng đã xuất hiện trong cuộc đời chàng, cảm ơn nàng vì đã yêu thương, quan tâm và bên cạnh chàng suốt 4 năm vừa qua, mong rằng sau này và nhiều năm nữa sinh nhật của nàng sẽ vẫn có chàng ở đây, vẫn ở bên cạnh nàng như tuổi đôi mươi ❤️❤️❤️.`,
+`Tuổi mới òi, Nàng yêu phải luôn vui vẻ nhó, có chàng luôn ở đây bên cạnh nàng san sẻ và sẻ chia cùng nàng hihi ❤️❤️❤️`,
+`Chúc mừng sinh nhật Vợ Yêu ❤️😝🥳 😝🥳 😝🥳 😝🥳🎂🎂🎂.`,
+`Chúc mừng 22 tuổi của nàng ❤️😍😙😚 ❤️😍😙😚 ❤️😍😙😚.`,
+`Yêu vợ nhiều nhắm ❤️😉😋😘 ❤️😉😋😘 ❤️.`,
+`Mãi mãi bên nhau Vợ yêu nhé ❤️🥰😘😍😙😚😉😋😘😝 ❤️🥰😘😍😙😚😉😋😘😝 ❤️.`
+];
+
+let done=false;
+function blow(){
+ if(done)return;
+ done=true;
+ document.querySelectorAll('.candle').forEach((c,i)=>{
+  setTimeout(()=>c.classList.add('off'),i*70);
+ });
+ document.querySelector('button').textContent='❤️ Chàng yêu nàng ❤️';
+ setTimeout(()=>{
+  document.getElementById('start').classList.add('hidden');
+  document.getElementById('letter').style.display='block';
+  showMessages();
+  fireworks();
+  setInterval(heart,350);
+ },2400);
+}
+
+function showMessages(){
+ const box=document.getElementById('content');
+ messages.forEach((msg,i)=>{
+  const p=document.createElement('p');
+  p.className='paragraph';
+  p.textContent=msg;
+  box.appendChild(p);
+  setTimeout(()=>p.classList.add('show'),700+i*1600);
+ });
+}
+
+function heart(){
+ const h=document.createElement('div');
+ h.className='heart';
+ h.textContent=['❤️','💕','💗','💖','🥰'][Math.floor(Math.random()*5)];
+ h.style.left=Math.random()*100+'vw';
+ h.style.fontSize=(18+Math.random()*25)+'px';
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),5000);
+}
+
+// Pháo hoa
+function fireworks(){
+ const canvas=document.getElementById('fireworks');
+ const ctx=canvas.getContext('2d');
+ canvas.width=innerWidth;canvas.height=innerHeight;
+ let particles=[];
+ for(let i=0;i<180;i++){
+  particles.push({
+   x:Math.random()*canvas.width,
+   y:Math.random()*canvas.height,
+   vx:(Math.random()-.5)*5,
+   vy:(Math.random()-.5)*5,
+   life:70+Math.random()*40,
+   color:['#ff3b86','#ffdc55','#ffffff','#a64dff'][i%4]
+  });
+ }
+ function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+   ctx.fillStyle=p.color;
+   ctx.globalAlpha=Math.max(0,p.life/100);
+   ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fill();
+   p.x+=p.vx;p.y+=p.vy;p.life--;
+  });
+  ctx.globalAlpha=1;
+  particles=particles.filter(p=>p.life>0);
+  if(particles.length)requestAnimationFrame(draw);
+  else canvas.remove();
+ }
+ draw();
+}
+</script>
+</body>
+</html>
